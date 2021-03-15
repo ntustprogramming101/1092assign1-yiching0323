@@ -67,7 +67,7 @@ void draw() {
     popMatrix();
   }
 
-  //soldierExist
+  //soldierRandomFloor
   if (soldierExist == false) {
     int a = int(random(1, 5));
     soldierExist = true;
