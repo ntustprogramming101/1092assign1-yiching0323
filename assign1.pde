@@ -13,9 +13,11 @@ boolean soldierExist;
 int robotX;
 int robotY;
 
-float laserX = robotX+25;
-float laserY = robotY+37;
-int laserSpeedX = 2;
+float laserX;
+float laserY;
+float laserWidth;
+float laserHeight;
+int laserXSpeed;
 
 void setup() {
   size(640, 480, P2D);
@@ -25,10 +27,9 @@ void setup() {
   robot = loadImage("img/robot.png");
   soil = loadImage("img/soil.png");
   soldier = loadImage("img/soldier.png");
-  soldierExist  = false;
-  robotX = int(random(160, 560));
 
   //robotPosition
+  robotX = int(random(160, 560));
   int a = int(random(1, 5));
   if (a==1) {
     robotY=400;
@@ -39,6 +40,18 @@ void setup() {
   } else if (a==4) {
     robotY=160;
   }
+
+  //soldierPosition
+  soldierX = -80;
+  soldierY = floor(random(2, 6))*80;
+  soldierXSpeed = 5;
+
+  //laserPosition
+  laserX = robotX+25;
+  laserY = robotY+37;
+
+  //laserMove
+  laserXSpeed = 2;
 }
 
 void draw() {
@@ -67,42 +80,28 @@ void draw() {
     popMatrix();
   }
 
-  //soldierRandomFloor
-  if (soldierExist == false) {
-    int a = int(random(1, 5));
-    soldierExist = true;
-    if (a==1) {
-      soldierY=400;
-    } else if (a==2) {
-      soldierY=320;
-    } else if (a==3) {
-      soldierY=240;
-    } else if (a==4) {
-      soldierY=160;
-    }
-  }
-
   //soldierMove
   image(soldier, soldierX, soldierY);
   soldierX += soldierXSpeed;
   if (soldierX>=640) {
-    soldierX %= (640+40);
-    soldierExist = false;
+    soldierX = -80;
   }
-
-  image(robot, robotX, robotY);//robot
 
   //laser
   laserY = robotY+37;
   noStroke();
   fill(255, 0, 0);
-  ellipse(laserX, laserY, 10, 10);
-  ellipse(laserX-30, laserY, 10, 10);
-  rect(laserX-32, laserY-5, 30, 10); 
-  laserX -= laserSpeedX;
+  ellipse(laserX-5, laserY, 10, 10);
+  ellipse(laserX-35, laserY, 10, 10);
+  rect(laserX-35+2.0/5.0, laserY-5, 30, 10); 
+
+  //laserMove
+  laserX -= laserXSpeed;
 
   //resetlaser
-  if (laserX <= 0) {
+  if (laserX <= robotX-160-25+40) {
     laserX = robotX+25;
   }
+
+  image(robot, robotX, robotY);//robot
 }
