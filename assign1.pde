@@ -8,7 +8,6 @@ PImage soldier;
 int soldierX;
 int soldierY;
 float soldierXSpeed = 5;
-boolean soldierExist;
 
 int robotX;
 int robotY;
